@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/23 12:55:05 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/23 13:02:55 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,14 @@ typedef struct s_fork {
 }	t_fork;
 
 typedef struct s_table {
+	pthread_mutex_t	*death_mutex;
 	t_philosopher	*philosophers;
+	t_philosopher	*dead_philosopher;
 }	t_table;
+
+typedef struct s_thread_argument {
+	t_table			*table;
+	t_philosopher	*philosopher;
+}	t_thread_argument;
 
 #endif
