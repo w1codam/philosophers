@@ -1,8 +1,10 @@
-NAME = philosophers
+NAME = philo
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
-SRC =	./src/main.c
+SRC =	./src/main.c \
+		./src/utility.c \
+		./src/log.c
 
 OBJ = ${SRC:%.c=%.o}
 
