@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/24 14:46:07 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/24 17:27:46 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philosopher {
 	t_state			state;
 	void			*right_fork;
 	void			*left_fork;
+	pthread_t		thread;
 }	t_philosopher;
 
 typedef struct s_fork {
@@ -57,7 +58,6 @@ typedef struct s_rules {
 }	t_rules;
 
 typedef struct s_table {
-	pthread_t		*threads;
 	pthread_mutex_t	print_mutex;
 	t_philosopher	*philosophers;
 	t_fork			*forks;
@@ -70,17 +70,22 @@ typedef struct s_thread_argument {
 	t_philosopher	*philosopher;
 }	t_thread_argument;
 
+// philosopher.c
+void		*philosopher(void *argument);
+
 // setup.c
 bool		parse_rules(int argc, char **argv, t_rules *rules);
+bool		prepare_table(t_table *table);
 
 // utility.c
 t_uint64	ft_curtime(void);
 t_int32		ft_atoi(char *str);
 t_int32		ft_strlen(char *str);
+void		*ft_calloc(size_t count, size_t size);
 
 // log.c
 t_int32		ft_error(char *reason);
-void		log_action(t_table *table, t_uint64 timestamp, \
-	t_philosopher *philosopher, char *action);
+void		log_action(t_table *table, t_philosopher *philosopher, \
+			char *action);
 
 #endif

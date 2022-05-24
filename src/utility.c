@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 15:07:54 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/24 14:22:20 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/24 15:10:30 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,19 @@ t_int32	ft_strlen(char *str)
 	return (i);
 }
 
+void	*ft_calloc(size_t count, size_t size)
+{
+	t_uint64	i;
+	void		*res;
 
+	i = 0;
+	res = malloc(count * size);
+	if (!res)
+		return (NULL);
+	while (i < count * size)
+	{
+		((char *)res)[i] = 0;
+		i++;
+	}
+	return (res);
+}
