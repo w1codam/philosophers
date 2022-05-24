@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/24 14:21:46 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/24 14:46:07 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ typedef unsigned long		t_uint64;
 typedef enum e_state {
 	EATING,
 	THINKING,
-	SLEEPING,
-	DEAD
+	SLEEPING
 }	t_state;
 
 typedef struct s_philosopher {
-	t_uint32		id;
-	t_uint32		servings;
-	t_uint64		last_meal;
+	t_int32			id;
+	t_int32			servings;
+	t_int64			last_meal;
 	t_state			state;
 	void			*right_fork;
 	void			*left_fork;
@@ -50,15 +49,14 @@ typedef struct s_fork {
 }	t_fork;
 
 typedef struct s_rules {
-	t_uint64		time_to_die;
-	t_uint64		time_to_eat;
-	t_uint64		time_to_sleep;
-	t_uint64		amount_of_servings;
-	bool			min_servings;
+	t_int32			philosophers;
+	t_int64			time_to_die;
+	t_int64			time_to_eat;
+	t_int64			time_to_sleep;
+	t_int32			amount_of_servings;
 }	t_rules;
 
 typedef struct s_table {
-	t_int64			n_philosophers;
 	pthread_t		*threads;
 	pthread_mutex_t	print_mutex;
 	t_philosopher	*philosophers;
@@ -71,6 +69,9 @@ typedef struct s_thread_argument {
 	t_table			*table;
 	t_philosopher	*philosopher;
 }	t_thread_argument;
+
+// setup.c
+bool		parse_rules(int argc, char **argv, t_rules *rules);
 
 // utility.c
 t_uint64	ft_curtime(void);

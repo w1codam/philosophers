@@ -4,7 +4,8 @@ CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 SRC =	./src/main.c \
 		./src/utility.c \
-		./src/log.c
+		./src/log.c \
+		./src/setup.c
 
 OBJ = ${SRC:%.c=%.o}
 
