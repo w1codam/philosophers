@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 14:27:28 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/25 13:18:22 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/25 16:12:52 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	seat_philosophers(t_table *table)
 
 	i = 0;
 	table->philosophers[i].left_fork = \
-		&table->forks[table->rules->philosophers];
+		&table->forks[table->rules->philosophers - 1];
 	while (i < table->rules->philosophers)
 	{
 		table->philosophers[i].right_fork = &table->forks[i];
