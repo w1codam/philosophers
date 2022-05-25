@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/25 12:53:24 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/25 16:56:45 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_uint64	ft_curtime(void);
 t_int32		ft_atoi(char *str);
 t_int32		ft_strlen(char *str);
 void		*ft_calloc(size_t count, size_t size);
+void		ft_sleep(t_uint64 ms);
 
 // log.c
 t_int32		ft_error(char *reason);

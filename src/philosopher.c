@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 16:52:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/25 15:53:37 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/25 17:01:37 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	p_eat(t_table *table, t_philosopher *philosopher)
 	log_action(table, philosopher, "is eating");
 	philosopher->state = EATING;
 	philosopher->last_meal = ft_curtime();
-	usleep(table->rules->time_to_eat);
+	ft_sleep(table->rules->time_to_eat / 1000);
 	philosopher->servings += 1;
 }
 
@@ -55,7 +55,7 @@ static void	p_sleep(t_table *table, t_philosopher *philosopher)
 		return ;
 	log_action(table, philosopher, "is sleeping");
 	philosopher->state = SLEEPING;
-	usleep(table->rules->time_to_sleep);
+	ft_sleep(table->rules->time_to_sleep / 1000);
 }
 
 void	*philosopher(void *argument)
@@ -66,6 +66,7 @@ void	*philosopher(void *argument)
 	philosopher = ((t_thread_argument *)argument)->philosopher;
 	table = ((t_thread_argument *)argument)->table;
 	free((t_thread_argument *)argument);
+	ft_sleep(philosopher->id);
 	while (table->active)
 	{
 		p_forks(table, philosopher, true);
