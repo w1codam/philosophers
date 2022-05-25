@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/25 12:39:16 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/25 13:53:35 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/25 15:42:47 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ void	monitor(t_table *table)
 			break ;
 		if (check_death(table))
 			break ;
-		usleep(1000);
+		usleep(10);
 	}
 }
