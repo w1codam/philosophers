@@ -6,7 +6,9 @@ SRC =	./src/main.c \
 		./src/utility.c \
 		./src/log.c \
 		./src/setup.c \
-		./src/philosopher.c
+		./src/philosopher.c \
+		./src/monitor.c \
+		./src/threads.c
 
 OBJ = ${SRC:%.c=%.o}
 

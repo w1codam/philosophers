@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 14:27:28 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/24 17:31:25 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/25 13:18:22 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ bool	parse_rules(int argc, char **argv, t_rules *rules)
 
 bool	prepare_table(t_table *table)
 {
-	table->active = false;
 	if (!prepare_philosophers(table))
 		return (false);
 	seat_philosophers(table);
+	table->active = true;
 	return (true);
 }

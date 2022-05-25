@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/24 17:27:46 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/25 12:53:24 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ typedef struct s_thread_argument {
 
 // philosopher.c
 void		*philosopher(void *argument);
+
+// monitor.c
+void		monitor(t_table *table);
+
+// threads.c
+bool		start_threads(t_table *table);
+void		wait_threads(t_table *table);
 
 // setup.c
 bool		parse_rules(int argc, char **argv, t_rules *rules);

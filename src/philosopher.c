@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 16:52:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/24 17:30:54 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/25 14:36:11 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	p_forks(t_table *table, t_philosopher *philosopher, bool grabbing)
 {
+	if (!table->active)
+		return ;
 	if (grabbing)
 	{
 		pthread_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
@@ -30,6 +32,8 @@ static void	p_forks(t_table *table, t_philosopher *philosopher, bool grabbing)
 
 static void	p_eat(t_table *table, t_philosopher *philosopher)
 {
+	if (!table->active)
+		return ;
 	log_action(table, philosopher, "is eating");
 	philosopher->state = EATING;
 	philosopher->last_meal = ft_curtime();
@@ -39,12 +43,16 @@ static void	p_eat(t_table *table, t_philosopher *philosopher)
 
 static void	p_think(t_table *table, t_philosopher *philosopher)
 {
+	if (!table->active)
+		return ;
 	log_action(table, philosopher, "is thinking");
 	philosopher->state = THINKING;
 }
 
 static void	p_sleep(t_table *table, t_philosopher *philosopher)
 {
+	if (!table->active)
+		return ;
 	log_action(table, philosopher, "is sleeping");
 	philosopher->state = SLEEPING;
 	usleep(table->rules->time_to_sleep);
@@ -52,16 +60,19 @@ static void	p_sleep(t_table *table, t_philosopher *philosopher)
 
 void	*philosopher(void *argument)
 {
-	t_thread_argument	*arg;
+	t_philosopher		*philosopher;
+	t_table				*table;
 
-	arg = (t_thread_argument *)argument;
-	while (arg->table->active)
+	philosopher = ((t_thread_argument *)argument)->philosopher;
+	table = ((t_thread_argument *)argument)->table;
+	free((t_thread_argument *)argument);
+	while (table->active)
 	{
-		p_forks(arg->table, arg->philosopher, true);
-		p_eat(arg->table, arg->philosopher);
-		p_forks(arg->table, arg->philosopher, false);
-		p_sleep(arg->table, arg->philosopher);
-		p_think(arg->table, arg->philosopher);
+		p_forks(table, philosopher, true);
+		p_eat(table, philosopher);
+		p_forks(table, philosopher, false);
+		p_sleep(table, philosopher);
+		p_think(table, philosopher);
 	}
 	return (NULL);
 }
