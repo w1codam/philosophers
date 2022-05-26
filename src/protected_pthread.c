@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   log.c                                              :+:    :+:            */
+/*   protected_pthread.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/23 15:10:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 15:02:54 by jde-groo      ########   odam.nl         */
+/*   Created: 2022/05/26 12:57:18 by jde-groo      #+#    #+#                 */
+/*   Updated: 2022/05/26 14:34:41 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-t_int32	ft_error(char *reason)
+void	p_mutex_init(pthread_mutex_t *mutex)
 {
-	write(STDERR_FILENO, "error: ", 7);
-	write(STDERR_FILENO, reason, ft_strlen(reason));
-	exit(EXIT_FAILURE);
-	return (EXIT_FAILURE);
+	if (pthread_mutex_init(mutex, NULL) != 0)
+		ft_error("unable to initialize mutex");
 }
 
-void	log_action(t_table *table, t_philosopher *philosopher, \
-	char *action, bool force)
+void	p_mutex_lock(pthread_mutex_t *mutex)
 {
-	p_mutex_lock(&table->print_mutex);
-	if (table->active || force)
-		printf("%lu %i %s\n", ft_curtime(), philosopher->id, action);
-	p_mutex_unlock(&table->print_mutex);
+	if (pthread_mutex_lock(mutex) != 0)
+		ft_error("unable to lock mutex");
+}
+
+void	p_mutex_unlock(pthread_mutex_t *mutex)
+{
+	if (pthread_mutex_unlock(mutex) != 0)
+		ft_error("unable to unlock mutex");
 }

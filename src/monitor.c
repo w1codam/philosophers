@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/25 12:39:16 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/25 15:42:47 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/26 14:38:10 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	check_death(t_table *table)
 		if (difference >= table->rules->time_to_die / 1000)
 		{
 			table->active = false;
-			log_action(table, &table->philosophers[i], "died");
+			log_action(table, &table->philosophers[i], "died", true);
 			return (true);
 		}
 		i++;

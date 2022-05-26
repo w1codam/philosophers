@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/25 16:56:45 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/26 14:37:28 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,12 @@ void		ft_sleep(t_uint64 ms);
 
 // log.c
 t_int32		ft_error(char *reason);
-void		log_action(t_table *table, t_philosopher *philosopher, \
-			char *action);
+void		log_action(t_table *table, \
+	t_philosopher *philosopher, char *action, bool force);
+
+// protected_pthread.c
+void		p_mutex_init(pthread_mutex_t *mutex);
+void		p_mutex_lock(pthread_mutex_t *mutex);
+void		p_mutex_unlock(pthread_mutex_t *mutex);
 
 #endif

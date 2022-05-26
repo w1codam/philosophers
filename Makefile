@@ -8,7 +8,8 @@ SRC =	./src/main.c \
 		./src/setup.c \
 		./src/philosopher.c \
 		./src/monitor.c \
-		./src/threads.c
+		./src/threads.c \
+		./src/protected_pthread.c
 
 OBJ = ${SRC:%.c=%.o}
 

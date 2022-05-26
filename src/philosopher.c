@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 16:52:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 12:41:48 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/26 14:40:52 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@ static void	p_forks(t_table *table, t_philosopher *philosopher, bool grabbing)
 	{
 		if (philosopher->id % 2)
 		{
-			pthread_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
-			log_action(table, philosopher, "has taken a fork");
-			pthread_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
-			log_action(table, philosopher, "has taken a fork");
+			p_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
+			log_action(table, philosopher, "has taken a fork", false);
+			p_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
+			log_action(table, philosopher, "has taken a fork", false);
 		}
 		else
 		{
-			pthread_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
-			log_action(table, philosopher, "has taken a fork");
-			pthread_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
-			log_action(table, philosopher, "has taken a fork");
+			p_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
+			log_action(table, philosopher, "has taken a fork", false);
+			p_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
+			log_action(table, philosopher, "has taken a fork", false);
 		}
 	}
 	else
 	{
-		pthread_mutex_unlock(&((t_fork *)philosopher->right_fork)->mutex);
-		pthread_mutex_unlock(&((t_fork *)philosopher->left_fork)->mutex);
+		p_mutex_unlock(&((t_fork *)philosopher->right_fork)->mutex);
+		p_mutex_unlock(&((t_fork *)philosopher->left_fork)->mutex);
 	}
 }
 
@@ -44,7 +44,7 @@ static void	p_eat(t_table *table, t_philosopher *philosopher)
 {
 	if (!table->active)
 		return ;
-	log_action(table, philosopher, "is eating");
+	log_action(table, philosopher, "is eating", false);
 	philosopher->state = EATING;
 	philosopher->last_meal = ft_curtime();
 	ft_sleep(table->rules->time_to_eat / 1000);
@@ -55,7 +55,7 @@ static void	p_think(t_table *table, t_philosopher *philosopher)
 {
 	if (!table->active)
 		return ;
-	log_action(table, philosopher, "is thinking");
+	log_action(table, philosopher, "is thinking", false);
 	philosopher->state = THINKING;
 }
 
@@ -63,7 +63,7 @@ static void	p_sleep(t_table *table, t_philosopher *philosopher)
 {
 	if (!table->active)
 		return ;
-	log_action(table, philosopher, "is sleeping");
+	log_action(table, philosopher, "is sleeping", false);
 	philosopher->state = SLEEPING;
 	ft_sleep(table->rules->time_to_sleep / 1000);
 }
