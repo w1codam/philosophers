@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 16:52:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/25 17:01:37 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/26 12:41:48 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,20 @@ static void	p_forks(t_table *table, t_philosopher *philosopher, bool grabbing)
 		return ;
 	if (grabbing)
 	{
-		pthread_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
-		log_action(table, philosopher, "has taken a fork");
-		pthread_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
-		log_action(table, philosopher, "has taken a fork");
+		if (philosopher->id % 2)
+		{
+			pthread_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
+			log_action(table, philosopher, "has taken a fork");
+			pthread_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
+			log_action(table, philosopher, "has taken a fork");
+		}
+		else
+		{
+			pthread_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
+			log_action(table, philosopher, "has taken a fork");
+			pthread_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
+			log_action(table, philosopher, "has taken a fork");
+		}
 	}
 	else
 	{
