@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/25 12:52:09 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 12:26:23 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/26 16:22:30 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ bool	start_threads(t_table *table)
 	while (i < table->rules->philosophers)
 	{
 		arg = malloc(sizeof(t_thread_argument));
+		if (!arg)
+			return (false);
 		arg->table = table;
 		arg->philosopher = &table->philosophers[i];
 		if (pthread_create(&table->philosophers[i].thread, NULL, \
@@ -42,7 +44,21 @@ void	wait_threads(t_table *table)
 			.right_fork)->mutex);
 		pthread_mutex_unlock(&((t_fork *)table->philosophers[i] \
 			.left_fork)->mutex);
-		pthread_join(table->philosophers[i].thread, NULL);
+		p_join(table, &table->philosophers[i].thread);
 		i++;
 	}
+}
+
+void	cleanup(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->rules->philosophers && table->forks)
+	{
+		pthread_mutex_destroy(&table->forks[i].mutex);
+		i++;
+	}
+	free(table->forks);
+	free(table->philosophers);
 }

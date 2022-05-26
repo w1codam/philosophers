@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 14:37:28 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/26 16:20:11 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void		monitor(t_table *table);
 // threads.c
 bool		start_threads(t_table *table);
 void		wait_threads(t_table *table);
+void		cleanup(t_table *table);
 
 // setup.c
 bool		parse_rules(int argc, char **argv, t_rules *rules);
@@ -92,13 +93,14 @@ void		*ft_calloc(size_t count, size_t size);
 void		ft_sleep(t_uint64 ms);
 
 // log.c
-t_int32		ft_error(char *reason);
+void		ft_error(t_table *table, char *reason);
 void		log_action(t_table *table, \
 	t_philosopher *philosopher, char *action, bool force);
 
 // protected_pthread.c
-void		p_mutex_init(pthread_mutex_t *mutex);
-void		p_mutex_lock(pthread_mutex_t *mutex);
-void		p_mutex_unlock(pthread_mutex_t *mutex);
+void		p_mutex_init(t_table *table, pthread_mutex_t *mutex);
+void		p_mutex_lock(t_table *table, pthread_mutex_t *mutex);
+void		p_mutex_unlock(t_table *table, pthread_mutex_t *mutex);
+void		p_join(t_table *table, pthread_t *thread);
 
 #endif
