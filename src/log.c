@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 15:10:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 16:21:32 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/05/26 16:28:00 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_error(t_table *table, char *reason)
 {
+	table->active = false;
 	write(STDERR_FILENO, "error: ", 7);
 	write(STDERR_FILENO, reason, ft_strlen(reason));
 	wait_threads(table);
