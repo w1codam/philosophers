@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 12:57:18 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 16:22:40 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/07/05 16:04:29 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	p_join(t_table *table, pthread_t *thread)
 	if (!thread)
 		return ;
 	if (pthread_join(*thread, NULL) != 0)
-		ft_error(table, "unable to join thread");
+		ft_warn("unable to join thread");
 }

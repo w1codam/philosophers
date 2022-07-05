@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:37 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 16:27:17 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/07/05 15:26:00 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	main(int argc, char **argv)
 	t_table		table;
 	t_rules		rules;
 
+	table.philosophers = NULL;
+	table.forks = NULL;
 	table.rules = &rules;
 	if (!parse_rules(argc, argv, &rules))
 		ft_error(&table, "incorrect argument(s)");

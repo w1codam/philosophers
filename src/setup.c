@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 14:27:28 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 16:22:01 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/07/05 15:29:00 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	seat_philosophers(t_table *table)
 
 bool	parse_rules(int argc, char **argv, t_rules *rules)
 {
+	rules->philosophers = 0;
 	if (argc < 5 || argc > 6)
 		return (false);
 	rules->philosophers = ft_atoi(argv[1]);

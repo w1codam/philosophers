@@ -6,11 +6,17 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 15:10:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/05/26 16:28:00 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/07/05 16:03:45 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
+
+void	ft_warn(char *reason)
+{
+	write(STDERR_FILENO, "warning: ", 9);
+	write(STDERR_FILENO, reason, ft_strlen(reason));
+}
 
 void	ft_error(t_table *table, char *reason)
 {
