@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 16:52:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/09/30 14:41:43 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/10/20 11:54:22 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	p_forks(t_table *table, t_philosopher *philosopher, bool grabbing)
 {
-	if (!table->active)
+	if (!table->active && grabbing)
 		return ;
 	if (grabbing)
 	{
@@ -22,6 +22,8 @@ static void	p_forks(t_table *table, t_philosopher *philosopher, bool grabbing)
 		{
 			p_mutex_lock(table, &((t_fork *)philosopher->right_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
+			if (table->rules->philosophers == 1)
+				return ;
 			p_mutex_lock(table, &((t_fork *)philosopher->left_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
 		}
@@ -79,6 +81,8 @@ void	*philosopher(void *argument)
 	while (table->active)
 	{
 		p_forks(table, philosopher, true);
+		if (table->rules->philosophers == 1)
+			return (NULL);
 		p_eat(table, philosopher);
 		p_forks(table, philosopher, false);
 		p_sleep(table, philosopher);

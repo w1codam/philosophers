@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 14:27:28 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/07/05 15:29:00 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/10/20 11:23:09 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	prepare_philosophers(t_table *table)
 		table->rules->philosophers);
 	if (!table->philosophers)
 		return (false);
-	table->forks = ft_calloc(sizeof(t_philosopher), \
+	table->forks = ft_calloc(sizeof(t_fork), \
 		table->rules->philosophers);
 	if (!table->forks)
 	{
