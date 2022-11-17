@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 16:52:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/11/07 15:32:59 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/17 14:45:44 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,24 @@ static void	p_forks(t_table *table, t_philosopher *philosopher, bool grabbing)
 	{
 		if (philosopher->id % 2)
 		{
-			p_mutex_lock(table, &((t_fork *)philosopher->right_fork)->mutex);
+			p_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
 			if (table->rules->philosophers == 1)
 				return ;
-			p_mutex_lock(table, &((t_fork *)philosopher->left_fork)->mutex);
+			p_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
 		}
 		else
 		{
-			p_mutex_lock(table, &((t_fork *)philosopher->left_fork)->mutex);
+			p_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
-			p_mutex_lock(table, &((t_fork *)philosopher->right_fork)->mutex);
+			p_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
 		}
 		return ;
 	}
-	p_mutex_unlock(table, &((t_fork *)philosopher->right_fork)->mutex);
-	p_mutex_unlock(table, &((t_fork *)philosopher->left_fork)->mutex);
+	p_mutex_unlock(&((t_fork *)philosopher->right_fork)->mutex);
+	p_mutex_unlock(&((t_fork *)philosopher->left_fork)->mutex);
 }
 
 static void	p_eat(t_table *table, t_philosopher *philosopher)

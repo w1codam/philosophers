@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/07/06 16:39:07 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/17 14:44:44 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void		log_action(t_table *table, \
 	t_philosopher *philosopher, char *action, bool force);
 
 // protected_pthread.c
-void		p_mutex_init(t_table *table, pthread_mutex_t *mutex);
-void		p_mutex_lock(t_table *table, pthread_mutex_t *mutex);
-void		p_mutex_unlock(t_table *table, pthread_mutex_t *mutex);
+bool		p_mutex_init(pthread_mutex_t *mutex);
+void		p_mutex_lock(pthread_mutex_t *mutex);
+void		p_mutex_unlock(pthread_mutex_t *mutex);
 void		p_join(pthread_t *thread);
 
 #endif

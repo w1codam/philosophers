@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 14:27:28 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/10/20 11:23:09 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/17 14:45:54 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static bool	prepare_philosophers(t_table *table)
 	{
 		table->philosophers[i].id = i + 1;
 		table->philosophers[i].last_meal = ft_curtime();
-		p_mutex_init(table, &table->forks[i].mutex);
+		if (!p_mutex_init(&table->forks[i].mutex))
+			return (false);
 		i++;
 	}
 	return (true);
@@ -79,7 +80,8 @@ bool	prepare_table(t_table *table)
 	if (!prepare_philosophers(table))
 		return (false);
 	seat_philosophers(table);
-	p_mutex_init(table, &table->print_mutex);
+	if (!p_mutex_init(&table->print_mutex))
+		return (false);
 	table->active = true;
 	return (true);
 }
