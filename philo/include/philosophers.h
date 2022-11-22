@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/11/17 14:44:44 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/22 14:36:02 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdlib.h>
 # include <limits.h>
 # include <stdbool.h>
 # include <sys/time.h>
@@ -27,17 +26,10 @@ typedef unsigned int		t_uint32;
 typedef long				t_int64;
 typedef unsigned long		t_uint64;
 
-typedef enum e_state {
-	EATING,
-	THINKING,
-	SLEEPING
-}	t_state;
-
 typedef struct s_philosopher {
 	t_int32			id;
 	t_int32			servings;
 	t_int64			last_meal;
-	t_state			state;
 	void			*right_fork;
 	void			*left_fork;
 	pthread_t		thread;
@@ -59,6 +51,7 @@ typedef struct s_rules {
 
 typedef struct s_table {
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	data_mutex;
 	t_philosopher	*philosophers;
 	t_fork			*forks;
 	t_rules			*rules;
@@ -77,6 +70,7 @@ void		*philosopher(void *argument);
 void		monitor(t_table *table);
 
 // threads.c
+bool		safe_read(pthread_mutex_t *mtx, bool *addr);
 bool		start_threads(t_table *table);
 void		wait_threads(t_table *table);
 void		cleanup(t_table *table);
@@ -100,8 +94,6 @@ void		log_action(t_table *table, \
 
 // protected_pthread.c
 bool		p_mutex_init(pthread_mutex_t *mutex);
-void		p_mutex_lock(pthread_mutex_t *mutex);
-void		p_mutex_unlock(pthread_mutex_t *mutex);
 void		p_join(pthread_t *thread);
 
 #endif

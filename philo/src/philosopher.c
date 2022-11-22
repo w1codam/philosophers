@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 16:52:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/11/17 14:45:44 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/22 14:31:15 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,59 @@
 
 static void	p_forks(t_table *table, t_philosopher *philosopher, bool grabbing)
 {
-	if (!table->active && grabbing)
+	if (!safe_read(&table->data_mutex, &table->active) && grabbing)
 		return ;
 	if (grabbing)
 	{
 		if (philosopher->id % 2)
 		{
-			p_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
+			pthread_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
 			if (table->rules->philosophers == 1)
 				return ;
-			p_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
+			pthread_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
 		}
 		else
 		{
-			p_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
+			pthread_mutex_lock(&((t_fork *)philosopher->left_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
-			p_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
+			pthread_mutex_lock(&((t_fork *)philosopher->right_fork)->mutex);
 			log_action(table, philosopher, "has taken a fork", false);
 		}
 		return ;
 	}
-	p_mutex_unlock(&((t_fork *)philosopher->right_fork)->mutex);
-	p_mutex_unlock(&((t_fork *)philosopher->left_fork)->mutex);
+	pthread_mutex_unlock(&((t_fork *)philosopher->right_fork)->mutex);
+	pthread_mutex_unlock(&((t_fork *)philosopher->left_fork)->mutex);
 }
 
 static void	p_eat(t_table *table, t_philosopher *philosopher)
 {
-	if (!table->active)
+	if (!safe_read(&table->data_mutex, &table->active))
 		return ;
 	log_action(table, philosopher, "is eating", false);
-	philosopher->state = EATING;
+	pthread_mutex_lock(&table->data_mutex);
 	philosopher->last_meal = ft_curtime();
-	ft_sleep(table->rules->time_to_eat / 1000);
+	pthread_mutex_unlock(&table->data_mutex);
+	ft_sleep(table->rules->time_to_eat);
+	pthread_mutex_lock(&table->data_mutex);
 	philosopher->servings += 1;
+	pthread_mutex_unlock(&table->data_mutex);
 }
 
 static void	p_think(t_table *table, t_philosopher *philosopher)
 {
-	if (!table->active)
+	if (!safe_read(&table->data_mutex, &table->active))
 		return ;
 	log_action(table, philosopher, "is thinking", false);
-	philosopher->state = THINKING;
 }
 
 static void	p_sleep(t_table *table, t_philosopher *philosopher)
 {
-	if (!table->active)
+	if (!safe_read(&table->data_mutex, &table->active))
 		return ;
 	log_action(table, philosopher, "is sleeping", false);
-	philosopher->state = SLEEPING;
-	ft_sleep(table->rules->time_to_sleep / 1000);
+	ft_sleep(table->rules->time_to_sleep);
 }
 
 void	*philosopher(void *argument)
@@ -76,7 +77,7 @@ void	*philosopher(void *argument)
 	philosopher = ((t_thread_argument *)argument)->philosopher;
 	table = ((t_thread_argument *)argument)->table;
 	free((t_thread_argument *)argument);
-	while (table->active)
+	while (safe_read(&table->data_mutex, &table->active))
 	{
 		p_forks(table, philosopher, true);
 		if (table->rules->philosophers == 1)

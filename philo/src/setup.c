@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 14:27:28 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/11/17 14:45:54 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/22 14:31:20 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ bool	parse_rules(int argc, char **argv, t_rules *rules)
 	if (argc < 5 || argc > 6)
 		return (false);
 	rules->philosophers = ft_atoi(argv[1]);
-	rules->time_to_die = ft_atoi(argv[2]) * 1000;
-	rules->time_to_eat = ft_atoi(argv[3]) * 1000;
-	rules->time_to_sleep = ft_atoi(argv[4]) * 1000;
+	rules->time_to_die = ft_atoi(argv[2]);
+	rules->time_to_eat = ft_atoi(argv[3]);
+	rules->time_to_sleep = ft_atoi(argv[4]);
 	rules->amount_of_servings = -1;
 	if (argc > 5)
 		rules->amount_of_servings = ft_atoi(argv[5]);
@@ -80,7 +80,7 @@ bool	prepare_table(t_table *table)
 	if (!prepare_philosophers(table))
 		return (false);
 	seat_philosophers(table);
-	if (!p_mutex_init(&table->print_mutex))
+	if (!p_mutex_init(&table->print_mutex) || !p_mutex_init(&table->data_mutex))
 		return (false);
 	table->active = true;
 	return (true);

@@ -1,6 +1,6 @@
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -fsanitize=thread
 
 SRC =	./src/main.c \
 		./src/utility.c \

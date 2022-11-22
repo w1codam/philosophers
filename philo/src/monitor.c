@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/25 12:39:16 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/10/20 11:34:45 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/22 14:30:46 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,18 @@ static bool	check_servings(t_table *table)
 	i = 0;
 	while (i < table->rules->philosophers)
 	{
+		pthread_mutex_lock(&table->data_mutex);
 		if (table->philosophers[i].servings < table->rules->amount_of_servings)
+		{
+			pthread_mutex_unlock(&table->data_mutex);
 			return (false);
+		}
+		pthread_mutex_unlock(&table->data_mutex);
 		i++;
 	}
+	pthread_mutex_lock(&table->data_mutex);
 	table->active = false;
+	pthread_mutex_unlock(&table->data_mutex);
 	return (true);
 }
 
@@ -39,13 +46,18 @@ static bool	check_death(t_table *table)
 	curtime = ft_curtime();
 	while (i < table->rules->philosophers)
 	{
+		pthread_mutex_lock(&table->data_mutex);
 		difference = curtime - table->philosophers[i].last_meal;
-		if (difference > table->rules->time_to_die / 1000)
+		if (difference > table->rules->time_to_die)
 		{
+			pthread_mutex_unlock(&table->data_mutex);
+			pthread_mutex_lock(&table->data_mutex);
 			table->active = false;
+			pthread_mutex_unlock(&table->data_mutex);
 			log_action(table, &table->philosophers[i], "died", true);
 			return (true);
 		}
+		pthread_mutex_unlock(&table->data_mutex);
 		i++;
 	}
 	return (false);
