@@ -1,5 +1,5 @@
 NAME = philo
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
 SRC =	./src/main.c \
