@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:34 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/11/22 14:36:02 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/24 14:33:04 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		*ft_calloc(size_t count, size_t size);
 void		ft_sleep(t_uint64 ms);
 
 // log.c
-void		ft_error(t_table *table, char *reason);
+int			ft_error(t_table *table, char *reason);
 void		ft_warn(char *reason);
 void		log_action(t_table *table, \
 	t_philosopher *philosopher, char *action, bool force);

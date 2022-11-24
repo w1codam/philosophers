@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 12:14:37 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/07/05 15:26:00 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/24 14:32:48 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	main(int argc, char **argv)
 	table.forks = NULL;
 	table.rules = &rules;
 	if (!parse_rules(argc, argv, &rules))
-		ft_error(&table, "incorrect argument(s)");
+		return (ft_error(&table, "incorrect argument(s)"));
 	if (!prepare_table(&table))
-		ft_error(&table, "failed to prepare table");
+		return (ft_error(&table, "failed to prepare table"));
 	if (!start_threads(&table))
-		ft_error(&table, "failed to start threads");
+		return (ft_error(&table, "failed to start threads"));
 	monitor(&table);
 	wait_threads(&table);
 	cleanup(&table);
