@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/25 12:52:09 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/11/22 14:32:34 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/24 15:15:30 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ void	cleanup(t_table *table)
 		pthread_mutex_destroy(&table->forks[i].mutex);
 		i++;
 	}
-	pthread_mutex_destroy(&table->data_mutex);
-	pthread_mutex_destroy(&table->print_mutex);
+	if (table->philosophers)
+	{
+		pthread_mutex_destroy(&table->data_mutex);
+		pthread_mutex_destroy(&table->print_mutex);
+	}
 	free(table->forks);
 	free(table->philosophers);
 }

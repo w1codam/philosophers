@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/23 15:10:56 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/11/24 14:32:59 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/24 15:11:20 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ void	ft_warn(char *reason)
 
 int	ft_error(t_table *table, char *reason)
 {
-	pthread_mutex_lock(&table->data_mutex);
 	table->active = false;
-	pthread_mutex_unlock(&table->data_mutex);
 	write(STDERR_FILENO, "error: ", 7);
 	write(STDERR_FILENO, reason, ft_strlen(reason));
 	wait_threads(table);

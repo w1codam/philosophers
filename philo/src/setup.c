@@ -6,7 +6,7 @@
 /*   By: jde-groo <jde-groo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/24 14:27:28 by jde-groo      #+#    #+#                 */
-/*   Updated: 2022/11/22 14:31:20 by jde-groo      ########   odam.nl         */
+/*   Updated: 2022/11/24 15:12:18 by jde-groo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,13 @@ bool	prepare_table(t_table *table)
 	if (!prepare_philosophers(table))
 		return (false);
 	seat_philosophers(table);
-	if (!p_mutex_init(&table->print_mutex) || !p_mutex_init(&table->data_mutex))
+	if (!p_mutex_init(&table->print_mutex))
 		return (false);
+	if (!p_mutex_init(&table->data_mutex))
+	{
+		pthread_mutex_destroy(&table->print_mutex);
+		return (false);
+	}
 	table->active = true;
 	return (true);
 }
